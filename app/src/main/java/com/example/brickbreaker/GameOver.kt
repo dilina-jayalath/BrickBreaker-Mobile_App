@@ -14,15 +14,18 @@ class GameOver : AppCompatActivity() {
 
     private lateinit var tvPoints: TextView
     private lateinit var tvDuration: TextView
+
     private lateinit var tvHighScore: TextView
-    private lateinit var ivNewHeighest: ImageView
+    private lateinit var tvHighDuration :TextView
+
+
 
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_over)
-        ivNewHeighest = findViewById(R.id.ivNewHeighest)
+
         tvPoints = findViewById(R.id.tvPoints)
         tvDuration = findViewById(R.id.tvDuration)
 
@@ -62,24 +65,27 @@ class GameOver : AppCompatActivity() {
 
     private fun updateHighScoreLowDuration(points: Int , duration: String  ) {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val currentLowDuration = sharedPreferences.getString("low_duration", "99:59") // Initial value set to maximum
+        val currentDuration = sharedPreferences.getString("high_duration", "0") // Initial value set to maximum
         val currentHighScore = sharedPreferences.getInt("high_score", 0)
 
         if (points > currentHighScore ) {
-            sharedPreferences.edit().putString("low_duration", duration).apply()
+
             sharedPreferences.edit().putInt("high_score", points).apply()
+             sharedPreferences.edit().putString("high_duration", duration).apply()
         }
+
     }
 
 
     private fun displayHighScoreAndLowDuration() {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val highScore = sharedPreferences.getInt("high_score", 0)
-        val lowDuration = sharedPreferences.getString("low_duration", "99:59") // Initial value set to maximum
+        val Duration = sharedPreferences.getString("high_duration", "0") // Initial value set to maximum
 
         tvHighScore = findViewById(R.id.tvHighScore)
-
+        tvHighDuration = findViewById(R.id.tvHighDuration)
         tvHighScore.text = ": $highScore"
+        tvHighDuration.text = ": $Duration"
 
     }
 
